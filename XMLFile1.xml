@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CongTy>
+	<NhanVien loai="1">
+
+		<MaNV>A01</MaNV>
+		<HoTen>Kiet</HoTen>
+		<NamSinh>2005</NamSinh>
+		<GioiTinh>Nam</GioiTinh>
+		<HeSoLuong>3.5</HeSoLuong>
+		<NamVaoLam>2013</NamVaoLam>
+		<SoNgayNghi>0</SoNgayNghi>
+	</NhanVien>
+	<NhanVien loai ="2">
+
+		<MaNV>A01</MaNV>
+		<HoTen>Nhi</HoTen>
+		<NamSinh>2005</NamSinh>
+		<GioiTinh>Nu</GioiTinh>
+		<HeSoLuong>1.5</HeSoLuong>
+		<NamVaoLam>2023</NamVaoLam>
+		<SoNgayNghi>0</SoNgayNghi>
+		<DoanhSoToiThieu>2000000000</DoanhSoToiThieu>
+		<DoanhSoThucTe>5000000000</DoanhSoThucTe>
+	</NhanVien>
+	<NhanVien loai ="3">
+
+		<MaNV>A01</MaNV>
+		<HoTen>Long</HoTen>
+		<GioiTinh>Nam</GioiTinh>
+		<HeSoLuong>2.5</HeSoLuong>
+		<NamSinh>2005</NamSinh>
+		<NamVaoLam>2020</NamVaoLam>
+		<ChucVu>Giam Doc</ChucVu>
+		<HeSoChucVu>5.0</HeSoChucVu>
+	</NhanVien>
+
+</CongTy>
+
