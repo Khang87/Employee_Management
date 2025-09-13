@@ -68,7 +68,7 @@ namespace NhanVien
             if (string.IsNullOrWhiteSpace(ten))
                 return new List<NhanVienABC>();
 
-            return _danhSach.Where(nv => nv.HoTen.Contains(ten.Trim(), StringComparison.OrdinalIgnoreCase)).ToList();
+            return _danhSach.Where(nv => nv.HoTen.IndexOf(ten.Trim(), StringComparison.OrdinalIgnoreCase) >= 0).ToList();
         }
 
         // READ - Lấy tất cả nhân viên

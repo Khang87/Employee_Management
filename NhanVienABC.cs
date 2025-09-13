@@ -144,7 +144,7 @@ namespace NhanVien
         public virtual double ThuNhap()
         {
             char xepLoai = XepLoai();
-            double heSoThuNhap = 0;
+            double heSoThuNhap;
             
             switch (xepLoai)
             {

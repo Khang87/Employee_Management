@@ -4,7 +4,7 @@
 
 		<MaNV>A01</MaNV>
 		<HoTen>Kiet</HoTen>
-		<NamSinh>2005</NamSinh>
+		<NamSinh>1990</NamSinh>
 		<GioiTinh>Nam</GioiTinh>
 		<HeSoLuong>3.5</HeSoLuong>
 		<NamVaoLam>2013</NamVaoLam>
@@ -12,10 +12,10 @@
 	</NhanVien>
 	<NhanVien loai ="2">
 
-		<MaNV>A01</MaNV>
+		<MaNV>A02</MaNV>
 		<HoTen>Nhi</HoTen>
-		<NamSinh>2005</NamSinh>
-		<GioiTinh>Nu</GioiTinh>
+		<NamSinh>1995</NamSinh>
+		<GioiTinh>Nữ</GioiTinh>
 		<HeSoLuong>1.5</HeSoLuong>
 		<NamVaoLam>2023</NamVaoLam>
 		<SoNgayNghi>0</SoNgayNghi>
@@ -24,11 +24,11 @@
 	</NhanVien>
 	<NhanVien loai ="3">
 
-		<MaNV>A01</MaNV>
+		<MaNV>A03</MaNV>
 		<HoTen>Long</HoTen>
 		<GioiTinh>Nam</GioiTinh>
 		<HeSoLuong>2.5</HeSoLuong>
-		<NamSinh>2005</NamSinh>
+		<NamSinh>1985</NamSinh>
 		<NamVaoLam>2020</NamVaoLam>
 		<ChucVu>Giam Doc</ChucVu>
 		<HeSoChucVu>5.0</HeSoChucVu>
