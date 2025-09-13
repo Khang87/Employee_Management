@@ -6,97 +6,193 @@ using System.Threading.Tasks;
 
 namespace NhanVien
 {
-    abstract class NhanVienABC
+    // Interface để định nghĩa các operations cơ bản
+    public interface INhanVien
     {
-        private string maNV;
+        string MaNV { get; }
+        string HoTen { get; set; }
+        int NamSinh { get; set; }
+        string GioiTinh { get; set; }
+        double HeSoLuong { get; set; }
+        int NamVaoLam { get; set; }
+        char XepLoai();
+        double TinhLuong();
+        double ThuNhap();
+        void Xuat();
+    }
 
-        protected string MaNV
-        {
-            get { return maNV; }
-            set { maNV = value; }
-        }
-        private string hoTen;
+    // Abstract class với Encapsulation tốt hơn
+    public abstract class NhanVienABC : INhanVien
+    {
+        #region Private Fields
+        private string _maNV;
+        private string _hoTen;
+        private int _namSinh;
+        private double _heSoLuong;
+        private int _namVaoLam;
+        private string _gioiTinh;
+        #endregion
 
-        protected string HoTen
+        #region Public Properties với Validation
+        public string MaNV
         {
-            get { return hoTen; }
-            set { hoTen = value; }
+            get { return _maNV; }
+            private set 
+            { 
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Mã nhân viên không được để trống");
+                _maNV = value.Trim().ToUpper(); 
+            }
         }
-        private int namSinh;
 
-        protected int NamSinh
+        public string HoTen
         {
-            get { return namSinh; }
-            set { namSinh = value; }
+            get { return _hoTen; }
+            set 
+            { 
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Họ tên không được để trống");
+                _hoTen = value.Trim(); 
+            }
         }
-        protected double hSL;
 
-        protected double HSL
+        public int NamSinh
         {
-            get { return hSL; }
-            set { hSL = value; }
+            get { return _namSinh; }
+            set 
+            { 
+                if (value < 1900 || value > DateTime.Now.Year)
+                    throw new ArgumentException($"Năm sinh phải từ 1900 đến {DateTime.Now.Year}");
+                _namSinh = value; 
+            }
         }
-        protected int nVL;
 
-        protected int NVL
+        public double HeSoLuong
         {
-            get { return nVL; }
-            set { nVL = value; }
+            get { return _heSoLuong; }
+            set 
+            { 
+                if (value <= 0)
+                    throw new ArgumentException("Hệ số lương phải lớn hơn 0");
+                _heSoLuong = value; 
+            }
         }
-        protected string gt;
 
-        protected string Gt
+        public int NamVaoLam
         {
-            get { return gt; }
-            set { gt = value; }
+            get { return _namVaoLam; }
+            set 
+            { 
+                if (value < 1900 || value > DateTime.Now.Year)
+                    throw new ArgumentException($"Năm vào làm phải từ 1900 đến {DateTime.Now.Year}");
+                if (value < NamSinh + 16)
+                    throw new ArgumentException("Năm vào làm phải sau năm sinh ít nhất 16 năm");
+                _namVaoLam = value; 
+            }
         }
-        public static int lcb = 2340000;
+
+        public string GioiTinh
+        {
+            get { return _gioiTinh; }
+            set 
+            { 
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Giới tính không được để trống");
+                if (!value.Equals("Nam", StringComparison.OrdinalIgnoreCase) && 
+                    !value.Equals("Nữ", StringComparison.OrdinalIgnoreCase))
+                    throw new ArgumentException("Giới tính phải là 'Nam' hoặc 'Nữ'");
+                _gioiTinh = value.Trim(); 
+            }
+        }
+
+        public static double LuongCoBan { get; } = 2340000;
+        #endregion
+
+        #region Constructors
         public NhanVienABC(string maNhanVien, string hoTen, int namSinh, string gioiTinh, double heSL, int namVL)
         {
             this.MaNV = maNhanVien;
             this.HoTen = hoTen;
             this.NamSinh = namSinh;
-            this.HSL = heSL;
-            this.Gt = gioiTinh;
-            this.NVL = namVL;
-
+            this.HeSoLuong = heSL;
+            this.GioiTinh = gioiTinh;
+            this.NamVaoLam = namVL;
         }
+
         public NhanVienABC()
         {
-            MaNV = "555";
-            HoTen = "Faiz";
+            MaNV = "NV001";
+            HoTen = "Nguyễn Văn A";
             NamSinh = 1987;
-            Gt = "Nam";
-            HSL = 5.55;
-            NVL = 2005;
-
+            GioiTinh = "Nam";
+            HeSoLuong = 5.55;
+            NamVaoLam = 2005;
         }
-        public double TinhPCTN()
+        #endregion
+
+        #region Methods
+        public virtual double TinhPhuCapThamNien()
         {
-            if (DateTime.Now.Year - NVL >= 5)
+            int soNamLamViec = DateTime.Now.Year - NamVaoLam;
+            if (soNamLamViec >= 5)
             {
-                return (double)(DateTime.Now.Year - NVL / 100) * NhanVienABC.lcb;
+                return (double)(soNamLamViec / 100) * LuongCoBan;
             }
             return 0;
+        }
 
-        }
-        public double ThuNhap()
+        public virtual double ThuNhap()
         {
-            if (XepLoai() == 'A')
-                return 1 * TinhLuong() + TinhPCTN();
-            else if (XepLoai() == 'B')
-                return 0.75 * TinhLuong() + TinhPCTN();
-            else if (XepLoai() == 'C')
-                return 0.5 * TinhLuong() + TinhPCTN();
-            else
-                return 0 * TinhLuong() + TinhPCTN();
+            char xepLoai = XepLoai();
+            double heSoThuNhap = 0;
+            
+            switch (xepLoai)
+            {
+                case 'A': heSoThuNhap = 1.0; break;
+                case 'B': heSoThuNhap = 0.75; break;
+                case 'C': heSoThuNhap = 0.5; break;
+                default: heSoThuNhap = 0; break;
+            }
+            
+            return heSoThuNhap * TinhLuong() + TinhPhuCapThamNien();
         }
+
         public abstract char XepLoai();
         public abstract double TinhLuong();
+
         public virtual void Xuat()
         {
-            Console.WriteLine("Ma NV:{0} \nHo ten:{1} \nNam sinh : {2} \nGioi tinh: {3} \nHe so luong: {4} \nNam vao lam: {5} ", MaNV, HoTen, NamSinh, Gt, HSL, NVL);
+            Console.WriteLine("=== THÔNG TIN NHÂN VIÊN ===");
+            Console.WriteLine($"Mã NV: {MaNV}");
+            Console.WriteLine($"Họ tên: {HoTen}");
+            Console.WriteLine($"Năm sinh: {NamSinh}");
+            Console.WriteLine($"Giới tính: {GioiTinh}");
+            Console.WriteLine($"Hệ số lương: {HeSoLuong:F2}");
+            Console.WriteLine($"Năm vào làm: {NamVaoLam}");
+            Console.WriteLine($"Xếp loại: {XepLoai()}");
+            Console.WriteLine($"Lương cơ bản: {TinhLuong():C0}");
+            Console.WriteLine($"Phụ cấp thâm niên: {TinhPhuCapThamNien():C0}");
+            Console.WriteLine($"Thu nhập: {ThuNhap():C0}");
         }
 
+        // Override ToString để hỗ trợ Polymorphism
+        public override string ToString()
+        {
+            return $"{MaNV} - {HoTen} - {XepLoai()} - {TinhLuong():C0}";
+        }
+
+        // Override Equals và GetHashCode để hỗ trợ so sánh
+        public override bool Equals(object obj)
+        {
+            if (obj is NhanVienABC nv)
+                return MaNV.Equals(nv.MaNV);
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return MaNV.GetHashCode();
+        }
+        #endregion
     }
 }

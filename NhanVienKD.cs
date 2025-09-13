@@ -6,49 +6,89 @@ using System.Threading.Tasks;
 
 namespace NhanVien
 {
-    class NhanVienKD : NhanVienABC
+    public class NhanVienKD : NhanVienABC
     {
-        double doanhSoBangHangToiThieu;
+        #region Private Fields
+        private double _doanhSoToiThieu;
+        private double _doanhSoThucTe;
+        #endregion
 
-        public double DoanhSoBangHangToiThieu
+        #region Public Properties
+        public double DoanhSoToiThieu
         {
-            get { return doanhSoBangHangToiThieu; }
-            set { doanhSoBangHangToiThieu = value; }
-        }
-        double doanhSoBangHangThucTe;
-
-        public double DoanhSoBangHangThucTe
-        {
-            get { return doanhSoBangHangThucTe; }
-            set { doanhSoBangHangThucTe = value; }
-        }
-
-        public NhanVienKD(string MaNV, string HoTen, int NamSinh, string Gt, double heSL, int NVL, double DoanhSoBanHangToiThieu, double DoanhSoBanHangThucTe) : base(MaNV, HoTen, NamSinh, Gt, heSL, NVL)
-        {
-            this.DoanhSoBangHangToiThieu = DoanhSoBanHangToiThieu;
-            this.DoanhSoBangHangThucTe = DoanhSoBanHangThucTe;
-
+            get { return _doanhSoToiThieu; }
+            set 
+            { 
+                if (value < 0)
+                    throw new ArgumentException("Doanh số tối thiểu không được âm");
+                _doanhSoToiThieu = value; 
+            }
         }
 
+        public double DoanhSoThucTe
+        {
+            get { return _doanhSoThucTe; }
+            set 
+            { 
+                if (value < 0)
+                    throw new ArgumentException("Doanh số thực tế không được âm");
+                _doanhSoThucTe = value; 
+            }
+        }
+
+        public static double HeSoHoaHong { get; } = 0.15;
+        #endregion
+
+        #region Constructors
+        public NhanVienKD(string maNV, string hoTen, int namSinh, string gioiTinh, double heSoLuong, int namVaoLam, 
+            double doanhSoToiThieu, double doanhSoThucTe) 
+            : base(maNV, hoTen, namSinh, gioiTinh, heSoLuong, namVaoLam)
+        {
+            this.DoanhSoToiThieu = doanhSoToiThieu;
+            this.DoanhSoThucTe = doanhSoThucTe;
+        }
+
+        public NhanVienKD() : base()
+        {
+            DoanhSoToiThieu = 1000000;
+            DoanhSoThucTe = 1000000;
+        }
+        #endregion
+
+        #region Override Methods
         public override char XepLoai()
         {
-            if (DoanhSoBangHangThucTe >= DoanhSoBangHangToiThieu * 2)
+            if (DoanhSoThucTe >= DoanhSoToiThieu * 2)
                 return 'A';
-            else if (DoanhSoBangHangThucTe == DoanhSoBangHangToiThieu)
+            else if (DoanhSoThucTe >= DoanhSoToiThieu)
                 return 'B';
-            else if (DoanhSoBangHangThucTe < DoanhSoBangHangToiThieu)
+            else if (DoanhSoThucTe >= DoanhSoToiThieu * 0.5)
                 return 'C';
             else
                 return 'D';
         }
+
         public override double TinhLuong()
         {
-            return HSL * NhanVienABC.lcb + (0.15 * (DoanhSoBangHangThucTe - DoanhSoBangHangToiThieu));
+            double luongCoBan = HeSoLuong * LuongCoBan;
+            double hoaHong = Math.Max(0, HeSoHoaHong * (DoanhSoThucTe - DoanhSoToiThieu));
+            return luongCoBan + hoaHong;
         }
+
         public override void Xuat()
         {
             base.Xuat();
-            Console.WriteLine("Doanh so bang hang thuc te : {0} \n Doanh so bang hanh toi thieu : {1}", DoanhSoBangHangThucTe, DoanhSoBangHangToiThieu);
+            Console.WriteLine($"Doanh số tối thiểu: {DoanhSoToiThieu:C0}");
+            Console.WriteLine($"Doanh số thực tế: {DoanhSoThucTe:C0}");
+            Console.WriteLine($"Hoa hồng: {Math.Max(0, HeSoHoaHong * (DoanhSoThucTe - DoanhSoToiThieu)):C0}");
+            Console.WriteLine($"Hệ số hoa hồng: {HeSoHoaHong:P0}");
+            Console.WriteLine("=== KẾT THÚC THÔNG TIN NHÂN VIÊN KINH DOANH ===");
         }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()} - KD - DS: {DoanhSoThucTe:C0}";
+        }
+        #endregion
     }
 }

@@ -6,41 +6,80 @@ using System.Threading.Tasks;
 
 namespace NhanVien
 {
-    class CanBoQuanLy : NhanVienABC
+    public class CanBoQuanLy : NhanVienABC
     {
-        string chucVu;
+        #region Private Fields
+        private string _chucVu;
+        private double _heSoPhuCapChucVu;
+        #endregion
 
+        #region Public Properties
         public string ChucVu
         {
-            get { return chucVu; }
-            set { chucVu = value; }
+            get { return _chucVu; }
+            set 
+            { 
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Chức vụ không được để trống");
+                _chucVu = value.Trim(); 
+            }
         }
-        double heSoPCCV;
 
-        public double HeSoPCCV
+        public double HeSoPhuCapChucVu
         {
-            get { return heSoPCCV; }
-            set { heSoPCCV = value; }
+            get { return _heSoPhuCapChucVu; }
+            set 
+            { 
+                if (value < 0)
+                    throw new ArgumentException("Hệ số phụ cấp chức vụ không được âm");
+                _heSoPhuCapChucVu = value; 
+            }
         }
-        public CanBoQuanLy(string maNV, string HoTen, int NamSinh, double HSL, int NVL, string Gt, double heSoPCCV, string ChucVu) : base(maNV, HoTen, NamSinh, Gt, HSL, NVL)
+
+        public static double DonGiaPhuCapChucVu { get; } = 1350;
+        #endregion
+
+        #region Constructors
+        public CanBoQuanLy(string maNV, string hoTen, int namSinh, double heSoLuong, int namVaoLam, string gioiTinh, 
+            double heSoPhuCapChucVu, string chucVu) 
+            : base(maNV, hoTen, namSinh, gioiTinh, heSoLuong, namVaoLam)
         {
-
-            this.HeSoPCCV = heSoPCCV;
-            this.ChucVu = ChucVu;
-
+            this.HeSoPhuCapChucVu = heSoPhuCapChucVu;
+            this.ChucVu = chucVu;
         }
+
+        public CanBoQuanLy() : base()
+        {
+            ChucVu = "Trưởng phòng";
+            HeSoPhuCapChucVu = 2.0;
+        }
+        #endregion
+
+        #region Override Methods
         public override double TinhLuong()
         {
-            return HSL * NhanVienABC.lcb + (HeSoPCCV * 1350);
+            return HeSoLuong * LuongCoBan + (HeSoPhuCapChucVu * DonGiaPhuCapChucVu);
         }
+
         public override char XepLoai()
         {
-            return 'A';
+            return 'A'; // Cán bộ quản lý luôn xếp loại A
         }
+
         public override void Xuat()
         {
             base.Xuat();
-            Console.WriteLine("Chuc vu : {0}\nHe so PCCV: {1}", ChucVu, HeSoPCCV);
+            Console.WriteLine($"Chức vụ: {ChucVu}");
+            Console.WriteLine($"Hệ số phụ cấp chức vụ: {HeSoPhuCapChucVu:F2}");
+            Console.WriteLine($"Đơn giá phụ cấp chức vụ: {DonGiaPhuCapChucVu:C0}");
+            Console.WriteLine($"Phụ cấp chức vụ: {HeSoPhuCapChucVu * DonGiaPhuCapChucVu:C0}");
+            Console.WriteLine("=== KẾT THÚC THÔNG TIN CÁN BỘ QUẢN LÝ ===");
         }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()} - QL - {ChucVu}";
+        }
+        #endregion
     }
 }

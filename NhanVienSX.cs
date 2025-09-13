@@ -6,22 +6,41 @@ using System.Threading.Tasks;
 
 namespace NhanVien
 {
-    class NhanVienSX : NhanVienABC
+    public class NhanVienSX : NhanVienABC
     {
-        public static double HeSoPCNN = 0.1;
-        int soNgayNghi;
+        #region Private Fields
+        private int _soNgayNghi;
+        #endregion
+
+        #region Public Properties
+        public static double HeSoPhuCapNgayNghi { get; } = 0.1;
 
         public int SoNgayNghi
         {
-            get { return soNgayNghi; }
-            set { soNgayNghi = value; }
+            get { return _soNgayNghi; }
+            set 
+            { 
+                if (value < 0)
+                    throw new ArgumentException("Số ngày nghỉ không được âm");
+                _soNgayNghi = value; 
+            }
         }
-        public NhanVienSX(string maNV, string HoTen, int NamSinh, double HSL, int NVL, string Gt, int SoNgayNghi) : base(maNV, HoTen, NamSinh, Gt, HSL, NVL)
+        #endregion
+
+        #region Constructors
+        public NhanVienSX(string maNV, string hoTen, int namSinh, double heSoLuong, int namVaoLam, string gioiTinh, int soNgayNghi) 
+            : base(maNV, hoTen, namSinh, gioiTinh, heSoLuong, namVaoLam)
         {
-
-            this.SoNgayNghi = SoNgayNghi;
-
+            this.SoNgayNghi = soNgayNghi;
         }
+
+        public NhanVienSX() : base()
+        {
+            SoNgayNghi = 0;
+        }
+        #endregion
+
+        #region Override Methods
         public override char XepLoai()
         {
             if (SoNgayNghi <= 1)
@@ -33,14 +52,24 @@ namespace NhanVien
             else
                 return 'D';
         }
+
         public override double TinhLuong()
         {
-            return HSL * NhanVienABC.lcb * (1 + NhanVienSX.HeSoPCNN);
+            return HeSoLuong * LuongCoBan * (1 + HeSoPhuCapNgayNghi);
         }
+
         public override void Xuat()
         {
             base.Xuat();
-            Console.WriteLine("So ngay nghi :{0}\nLuong :{1}", SoNgayNghi, TinhLuong());
+            Console.WriteLine($"Số ngày nghỉ: {SoNgayNghi}");
+            Console.WriteLine($"Hệ số phụ cấp ngày nghỉ: {HeSoPhuCapNgayNghi:P0}");
+            Console.WriteLine("=== KẾT THÚC THÔNG TIN NHÂN VIÊN SẢN XUẤT ===");
         }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()} - SX - Nghỉ: {SoNgayNghi} ngày";
+        }
+        #endregion
     }
 }
