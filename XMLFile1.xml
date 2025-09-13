@@ -6,7 +6,7 @@
 		<HoTen>Kiet</HoTen>
 		<NamSinh>1990</NamSinh>
 		<GioiTinh>Nam</GioiTinh>
-		<HeSoLuong>3.5</HeSoLuong>
+		<HeSoLuong>3,5</HeSoLuong>
 		<NamVaoLam>2013</NamVaoLam>
 		<SoNgayNghi>0</SoNgayNghi>
 	</NhanVien>
@@ -16,7 +16,7 @@
 		<HoTen>Nhi</HoTen>
 		<NamSinh>1995</NamSinh>
 		<GioiTinh>Nữ</GioiTinh>
-		<HeSoLuong>1.5</HeSoLuong>
+		<HeSoLuong>1,5</HeSoLuong>
 		<NamVaoLam>2023</NamVaoLam>
 		<SoNgayNghi>0</SoNgayNghi>
 		<DoanhSoToiThieu>2000000000</DoanhSoToiThieu>
@@ -27,11 +27,11 @@
 		<MaNV>A03</MaNV>
 		<HoTen>Long</HoTen>
 		<GioiTinh>Nam</GioiTinh>
-		<HeSoLuong>2.5</HeSoLuong>
+		<HeSoLuong>2,5</HeSoLuong>
 		<NamSinh>1985</NamSinh>
 		<NamVaoLam>2020</NamVaoLam>
 		<ChucVu>Giam Doc</ChucVu>
-		<HeSoChucVu>5.0</HeSoChucVu>
+		<HeSoChucVu>5,0</HeSoChucVu>
 	</NhanVien>
 
 </CongTy>
